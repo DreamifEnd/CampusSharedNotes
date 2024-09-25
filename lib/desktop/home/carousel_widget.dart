@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class CarouselWidget extends StatefulWidget {
@@ -32,7 +33,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
       }
       _pageController.animateToPage(
         _currentPage,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
     });
@@ -49,23 +50,39 @@ class _CarouselWidgetState extends State<CarouselWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // 轮播图区域
-        SizedBox(
-          height: 300,
-          child: PageView.builder(
-            controller: _pageController,
-            itemCount: _carouselImages.length,
-            onPageChanged: (index) {
-              setState(() {
-                _currentPage = index;
-              });
-            },
-            itemBuilder: (context, index) {
-              return Image.network(
-                _carouselImages[index],
-                fit: BoxFit.cover,
-              );
-            },
+        // 轮播图区域，包裹 PageView 的 ClipRRect 用于添加圆角
+        ClipRRect(
+          borderRadius: BorderRadius.circular(16.0), // 设置圆角
+          child: SizedBox(
+            height: 300,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: _carouselImages.length,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentPage = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                return Image.network(
+                  _carouselImages[index],
+                  fit: BoxFit.cover,
+                  // 确保图片也遵循圆角
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                (loadingProgress.expectedTotalBytes ?? 1)
+                            : null,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
         // 圆点指示器

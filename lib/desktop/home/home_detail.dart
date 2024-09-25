@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
 import 'carousel_widget.dart';
 import 'course_grid_widget.dart';
 
@@ -13,8 +12,11 @@ class HomePageContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 轮播图组件
-          CarouselWidget(),
-          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: CarouselWidget(),
+          ),
+          // SizedBox(height: 20),
           // 标题
           Padding(
             padding: const EdgeInsets.all(16.0),

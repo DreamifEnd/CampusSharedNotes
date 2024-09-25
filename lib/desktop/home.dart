@@ -1,4 +1,5 @@
 import 'package:campus_shared_notes/desktop/home/home_detail.dart';
+import 'package:campus_shared_notes/desktop/whiteboard/whiteboard.dart';
 import 'package:flutter/material.dart';
 
 class DesktopHomePage extends StatefulWidget {
@@ -9,10 +10,9 @@ class DesktopHomePage extends StatefulWidget {
 class _DesktopHomePageState extends State<DesktopHomePage> {
   int _selectedIndex = 0;
 
-  // 定义右侧显示的模块
   final List<Widget> _pages = [
-    HomePageContent(),
-    Center(child: Text('消息内容')),
+    HomePageContent(), // 首页内容
+    WhitePaper(),
     Center(child: Text('个人中心内容')),
   ];
 
@@ -29,26 +29,41 @@ class _DesktopHomePageState extends State<DesktopHomePage> {
                 _selectedIndex = index;
               });
             },
-            labelType: NavigationRailLabelType.all,
+            leading: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CircleAvatar(
+                radius: 24,
+                backgroundImage: NetworkImage(
+                  'https://avatars.githubusercontent.com/u/113085336?s=400&u=0656989cab9cee7951598f6af2e8ad5486fbd1f7&v=4',
+                ),
+                backgroundColor: Colors.grey[300],
+              ),
+            ),
+            labelType: NavigationRailLabelType.none,
             destinations: const [
               NavigationRailDestination(
                 icon: Icon(Icons.home),
-                label: Text('首页'),
-                indicatorColor: Colors.white,
+                label: SizedBox.shrink(),
+                padding: EdgeInsets.symmetric(vertical: 8.0),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.message),
-                label: Text('笔记'),
+                icon: Icon(Icons.draw),
+                label: SizedBox.shrink(),
+                padding: EdgeInsets.symmetric(vertical: 8.0),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.person),
-                label: Text('个人中心'),
+                label: SizedBox.shrink(),
+                padding: EdgeInsets.symmetric(vertical: 8.0),
               ),
             ],
-            backgroundColor: Colors.grey,
+            backgroundColor: const Color(0xFFF5F5F5),
+            useIndicator: true,
+            indicatorColor: Color(0xFFE9E9E9),
+            indicatorShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-          const VerticalDivider(thickness: 1, width: 1),
-          // 右侧内容区域，显示对应的模块
           Expanded(
             child: _pages[_selectedIndex],
           ),
