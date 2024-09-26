@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:stomp_dart_client/stomp_dart_client.dart';
 
+import '../../utils/uuid.dart';
 import 'component/paint_setting_dialog.dart';
 import 'model/line.dart';
 import 'model/paint_model.dart';
@@ -22,6 +24,8 @@ enum TransformType {
 class _WhitePaperState extends State<WhitePaper> {
   final PaintModel paintModel = PaintModel();
 
+  String whiteBoardId = UUIDGenerator.generate();
+
   ValueNotifier<TransformType> type =
       ValueNotifier<TransformType>(TransformType.none);
 
@@ -29,11 +33,46 @@ class _WhitePaperState extends State<WhitePaper> {
   Offset _offset = Offset.zero;
   Color lineColor = Colors.black;
   double strokeWidth = 1;
+  late StompClient stompClient;
+  // final channel = WebSocketChannel.connect(
+  //   Uri.parse('ws://localhost:8080/ws'),
+  // );
+
+  @override
+  void initState() {
+    stompClient = StompClient(
+      config: StompConfig(
+        url: 'ws://localhost:8080/ws',
+        onConnect: (StompFrame frame) {
+          print('Connected to WebSocket');
+
+          // 订阅特定白板ID的主题
+          // stompClient.subscribe(
+          //   destination: '/topic/lines/$whiteBoardId',
+          //   callback: (StompFrame frame) {
+          //     // 处理接收到的线条数据
+          //     print('Received: ${frame.body}');
+          //   },
+          // );
+        },
+        onWebSocketError: (dynamic error) {
+          print('WebSocket错误: $error');
+        },
+        onStompError: (StompFrame frame) {
+          print('STOMP错误: ${frame.body}');
+        },
+      ),
+    );
+
+    stompClient.activate();
+  }
 
   @override
   void dispose() {
     paintModel.dispose();
     type.dispose();
+    stompClient.deactivate();
+    //channel.sink.close();
     super.dispose();
   }
 
@@ -62,7 +101,7 @@ class _WhitePaperState extends State<WhitePaper> {
             child: IconButton(
               icon: Icon(Icons.save),
               onPressed: () {
-                // 保存功能（仅显示UI）
+                print(paintModel.lines);
               },
             ),
           ),
@@ -181,7 +220,7 @@ class _WhitePaperState extends State<WhitePaper> {
   void _onScaleEnd(ScaleEndDetails details) {
     switch (type.value) {
       case TransformType.none:
-        paintModel.doneLine();
+        paintModel.doneLine(stompClient, whiteBoardId);
         paintModel.removeEmpty();
         break;
       case TransformType.translate:

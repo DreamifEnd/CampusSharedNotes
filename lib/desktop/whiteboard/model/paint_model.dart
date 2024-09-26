@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 import 'line.dart';
 import 'point.dart';
@@ -71,8 +74,15 @@ class PaintModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void doneLine() {
+  void doneLine(StompClient stompClient, String whiteBoardId) {
     if (activeLine == null) return;
+    print(whiteBoardId);
+    print(jsonEncode(activeLine!.toJson()));
+    stompClient.send(
+      destination: '/line/$whiteBoardId',
+      body: jsonEncode(activeLine!.toJson()),
+    );
+    //channel.sink.add("hello");
     activeLine!.state = PaintState.done;
     notifyListeners();
   }

@@ -10,9 +10,9 @@ class CarouselWidget extends StatefulWidget {
 class _CarouselWidgetState extends State<CarouselWidget> {
   final PageController _pageController = PageController();
   final List<String> _carouselImages = [
-    'https://via.placeholder.com/600x300?text=Slide+1',
-    'https://via.placeholder.com/600x300?text=Slide+2',
-    'https://via.placeholder.com/600x300?text=Slide+3',
+    'https://picsum.photos/1600/900?random=1',
+    'https://picsum.photos/1600/900?random=2',
+    'https://picsum.photos/1600/900?random=3',
   ];
 
   int _currentPage = 0;

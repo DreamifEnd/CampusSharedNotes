@@ -1,46 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/data.dart';
 import 'course_detail.dart';
 
 class CourseGridWidget extends StatelessWidget {
-  final List<Map<String, String>> _courses = [
-    {
-      'name': '课程 1',
-      'school': '学校 A',
-      'image': 'https://via.placeholder.com/300x200?text=Course+1',
-      'views': '1200'
-    },
-    {
-      'name': '课程 2',
-      'school': '学校 B',
-      'image': 'https://via.placeholder.com/300x200?text=Course+2',
-      'views': '900'
-    },
-    {
-      'name': '课程 3',
-      'school': '学校 C213213213213213',
-      'image': 'https://via.placeholder.com/300x200?text=Course+3',
-      'views': '3500'
-    },
-    {
-      'name': '课程 4',
-      'school': '学校 D',
-      'image': 'https://via.placeholder.com/300x200?text=Course+4',
-      'views': '500'
-    },
-    {
-      'name': '课程 5',
-      'school': '学校 E',
-      'image': 'https://via.placeholder.com/300x200?text=Course+5',
-      'views': '2700'
-    },
-    {
-      'name': '课程 6',
-      'school': '学校 F',
-      'image': 'https://via.placeholder.com/300x200?text=Course+6',
-      'views': '600'
-    },
-  ];
+  final List<Map<String, String>> _courses = Data.courses_list;
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +100,7 @@ class CourseCard extends StatelessWidget {
                   ),
                   SizedBox(
                     height: screenWidth > 1700 && screenHeight > 970
-                        ? 30
+                        ? 40
                         : screenHeight > 800
                             ? 10
                             : screenHeight > 300

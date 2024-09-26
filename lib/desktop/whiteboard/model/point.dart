@@ -21,4 +21,9 @@ class Point {
   Point operator -(Point other) => Point(x: x - other.x, y: y - other.y);
 
   Offset toOffset() => Offset(x, y);
+
+  Map<String, dynamic> toJson() => {
+        'x': x,
+        'y': y,
+      };
 }

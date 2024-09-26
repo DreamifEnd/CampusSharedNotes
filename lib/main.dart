@@ -36,7 +36,7 @@ class MainApp extends StatelessWidget {
       ),
       home: PlatformUIAdapter(
         desktop: DesktopHomePage(),
-        mobile: const MobileHomePage(),
+        mobile: MobileHomePage(),
       ),
     );
   }

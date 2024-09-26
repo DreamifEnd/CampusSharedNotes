@@ -1,17 +1,26 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart'; // 导入这个包
 import 'package:flutter/material.dart';
+
 class PlatformUIAdapter extends StatelessWidget {
   final Widget desktop;
   final Widget mobile;
-  const PlatformUIAdapter({super.key, required this.desktop, required this.mobile,});
+
+  const PlatformUIAdapter({
+    super.key,
+    required this.desktop,
+    required this.mobile,
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isAndroid || Platform.isIOS) {
-      return mobile;
+    if (kIsWeb) {
+      return desktop; // 针对Web的处理
     } else {
-      return desktop;
+      // 在移动设备上使用的Platform类
+      return (defaultTargetPlatform == TargetPlatform.iOS ||
+              defaultTargetPlatform == TargetPlatform.android)
+          ? mobile
+          : desktop;
     }
   }
 }

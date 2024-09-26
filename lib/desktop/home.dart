@@ -1,4 +1,5 @@
 import 'package:campus_shared_notes/desktop/home/home_detail.dart';
+import 'package:campus_shared_notes/desktop/usercenter/userpage.dart';
 import 'package:campus_shared_notes/desktop/whiteboard/whiteboard.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class _DesktopHomePageState extends State<DesktopHomePage> {
   final List<Widget> _pages = [
     HomePageContent(), // 首页内容
     WhitePaper(),
-    Center(child: Text('个人中心内容')),
+    UserProfilePage(),
   ];
 
   @override

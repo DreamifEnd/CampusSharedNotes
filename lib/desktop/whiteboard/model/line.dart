@@ -1,3 +1,4 @@
+import 'package:campus_shared_notes/utils/uuid.dart';
 import 'package:flutter/material.dart';
 
 import 'point.dart';
@@ -5,6 +6,7 @@ import 'point.dart';
 enum PaintState { doing, done, hide, edit }
 
 class Line {
+  String id = UUIDGenerator.generate();
   List<Point> points = [];
   PaintState state;
   double strokeWidth;
@@ -13,6 +15,20 @@ class Line {
   // Matrix4 matrix = Matrix4.identity();
 
   Size? paperSize;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'points': points.map((p) => p.toJson()).toList(),
+        'state': state.toString().split('.').last,
+        'strokeWidth': strokeWidth,
+        'color': '#${color.value.toRadixString(16).padLeft(8, '0')}',
+        'paperSize': paperSize != null
+            ? {
+                'width': paperSize!.width,
+                'height': paperSize!.height,
+              }
+            : null,
+      };
 
   Path _linePath = Path();
   Path? _recodePath;
